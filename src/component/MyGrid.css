@@ -1,0 +1,28 @@
+td {
+    border-top: solid white;
+    border-bottom: 1px solid white;
+    padding: 5px;
+    font-size: smaller;
+}
+
+
+th {
+    font-size: small;
+}
+
+table {
+    color: white;
+    border-collapse: collapse;
+}
+
+#check {
+    width: 15px;
+}
+
+#check1 {
+    width: 15px;
+}
+
+body {
+    background-color: transparent;
+}

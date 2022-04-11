@@ -1,0 +1,63 @@
+// import { Grid, Box, CssBaseline } from '@mui/material';
+import { useEffect, useState } from "react";
+import { getData } from '../services/data';
+import './MyGrid.css'
+
+function MyGrid() {
+    const [data, setData] = useState([]);
+    useEffect(async () => {
+        setData(await getData())
+    }, []);
+    return <>
+        <div className="tableWrap">
+        <table className="content-table">
+            <thead>
+                <tr>
+                    <th><input type="checkbox" id="check"/></th>
+                    <th>Sl no</th>
+                    <th>Business_Code</th>
+                    <th>Customer Number</th>
+                    <th>Clear Date</th>
+                    <th>Business Year</th>
+                    <th>Document id</th>
+                    <th>Posting Date</th>
+                    <th>Document Create Date</th>
+                    <th>Due Date</th>
+                    <th>Invoice Currency</th>
+                    <th>Document Type</th>
+                    <th>Pending Id</th>
+                    <th>Total Open amount</th>
+                    <th>Baseline Create Date</th>
+                    <th>Customer Payment Terms</th>
+                    <th>Invoice Id</th>
+                </tr>
+            </thead>
+            <tbody>
+                {data.map(data => (
+                    <tr>
+                        <td><input type="checkbox" id="check"/></td>
+                        <td>{data.sl_no}</td>
+                        <td>{data.business_code}</td>
+                        <td>{data.cust_number}</td>
+                        <td>{data.clear_date}</td>
+                        <td>{data.buisness_year}</td>
+                        <td>{data.doc_id}</td>
+                        <td>{data.posting_date}</td>
+                        <td>{data.document_create_date}</td>
+                        <td>{data.due_in_date}</td>
+                        <td>{data.invoice_currency}</td>
+                        <td>{data.document_type}</td>
+                        <td>{data.posting_id}</td>
+                        <td>{data.total_open_amount}</td>
+                        <td>{data.baseline_create_date}</td>
+                        <td>{data.cust_payment_terms}</td>
+                        <td>{data.invoice_id}</td>
+
+                    </tr>
+                ))}
+            </tbody>
+            </table>
+        </div>    
+    </>
+}
+export default MyGrid;

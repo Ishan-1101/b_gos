@@ -1,0 +1,134 @@
+import axios from "axios";
+import * as React from 'react';
+import PropTypes from 'prop-types';
+import { alpha } from '@mui/material/styles';
+import Box from '@mui/material/Box';
+import Table from '@mui/material/Table';
+import TableBody from '@mui/material/TableBody';
+import TableCell from '@mui/material/TableCell';
+import TableContainer from '@mui/material/TableContainer';
+import TableHead from '@mui/material/TableHead';
+import TablePagination from '@mui/material/TablePagination';
+import TableRow from '@mui/material/TableRow';
+import TableSortLabel from '@mui/material/TableSortLabel';
+import Toolbar from '@mui/material/Toolbar';
+import Typography from '@mui/material/Typography';
+import Paper from '@mui/material/Paper';
+import Checkbox from '@mui/material/Checkbox';
+import IconButton from '@mui/material/IconButton';
+import Tooltip from '@mui/material/Tooltip';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import Switch from '@mui/material/Switch';
+import DeleteIcon from '@mui/icons-material/Delete';
+import FilterListIcon from '@mui/icons-material/FilterList';
+import { visuallyHidden } from '@mui/utils';
+import { useEffect, useState } from "react";
+import { getData } from '../services/data';
+import './MyGrid.css'
+import { withStyles, makeStyles } from "@material-ui/core/styles";
+
+const StyledTableCell = withStyles((theme) => ({
+  head: {
+    backgroundColor: theme.palette.common.black,
+    color: theme.palette.common.white,
+  },
+  body: {
+    fontSize: 14,
+  },
+}))(TableCell);
+
+const StyledTableRow = withStyles((theme) => ({
+  root: {
+    "&:nth-of-type(odd)": {
+      backgroundColor: theme.palette.action.hover,
+    },
+  },
+}))(TableRow);
+
+const useStyles = makeStyles({
+  table: {
+    minWidth: 700,
+  },
+});
+
+const MyGrid = () => {
+  const classes = useStyles();
+  const [product, setProduct] = useState([]);
+  const [search, setSearch] = useState("");
+
+  const getProductData = async () => {
+    try {
+      const data = await axios.get(
+        "http://localhost:8080/Winter_Internship/Fetch"
+      );
+      console.log(data.data);
+      setProduct(data.data);
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  useEffect(() => {
+    getProductData();
+  }, []);
+  return (
+    <div className="App">
+      
+      
+
+      {/* {product
+        .filter((item) => {
+          if (search == "") {
+            return item;
+          } else if (item.name.toLowerCase().includes(search.toLowerCase())) {
+            return item;
+          }
+        })
+        .map((item) => {
+          return (
+            <p>
+              {item.name} - {item.price}
+            </p>
+          );
+        })} */}
+
+      <TableContainer component={Paper}>
+        <Table className={classes.table} aria-label="customized table">
+          <TableHead>
+            <TableRow>
+              <StyledTableCell>Product Name</StyledTableCell>
+              <StyledTableCell align="right">Product Price</StyledTableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {product
+               .map((item) => {
+                return (
+                  <StyledTableRow key={item.sl_no}>
+                      <StyledTableCell>{item.sl_no}</StyledTableCell>
+                      <StyledTableCell>{item.business_code}</StyledTableCell>
+                      <StyledTableCell>{item.cust_number}</StyledTableCell>
+                      <StyledTableCell>{item.clear_date}</StyledTableCell>
+                      <StyledTableCell>{item.buisness_year}</StyledTableCell>
+                      <StyledTableCell>{item.doc_id}</StyledTableCell>
+                      <StyledTableCell>{item.posting_date}</StyledTableCell>
+                      <StyledTableCell>{item.document_create_dat}</StyledTableCell>
+                      <StyledTableCell>{item.due_in_date}</StyledTableCell>
+                      <StyledTableCell>{item.invoice_currency}</StyledTableCell>
+                      <StyledTableCell>{item.document_type}</StyledTableCell>
+                      <StyledTableCell>{item.posting_id}</StyledTableCell>
+                      <StyledTableCell>{item.total_open_amount}</StyledTableCell>
+                      <StyledTableCell>{item.baseline_create_date}</StyledTableCell>
+                      <StyledTableCell>{item.cust_payment_terms}</StyledTableCell>
+                      <StyledTableCell>{item.invoice_id}</StyledTableCell>
+                  </StyledTableRow>  
+                );
+              })}
+          </TableBody>
+        </Table>
+      </TableContainer>
+    </div>
+  );
+};
+
+export default MyGrid;
