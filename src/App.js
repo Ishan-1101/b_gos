@@ -1,12 +1,32 @@
+import React, { useState } from 'react'
 import logo from './logo.svg';
 import './App.css';
-import  MyGrid  from './component/MyGrid';
+import  MyGrid  from './components/MyGrid';
 import mainlogo from './Group 20399.svg'
 import mainlogo1 from './logo.svg'
 import Popup from 'reactjs-popup'
-import Add from './component/Add'
+import Add from './components/Add'
+import Edit from './components/edit';
+import Delete from './components/delete';
+import  Search  from './components/search' 
+import { TextField } from '@mui/material'
+import { searchData } from './components/data';
 
 function App() { 
+
+  const [search, setSearch] = useState({ doc_id: '', invoice_id: '', cust_number: '', buisness_year: '' });
+    const { doc_id, invoice_id, cust_number, buisness_year } = search;
+const changeHandler = e => {
+        setSearch({ ...search, [e.target.name]: [e.target.value] });
+    };
+    const submitHandler = async (e) => {
+        if (!(e.key === 'Enter')) {
+            return
+        }
+        e.preventDefault()
+        let response = await searchData(search)
+    };
+
   return (
     <div className="body">
       <header>
@@ -22,22 +42,49 @@ function App() {
 
           <div className="container" id = "container1" align="">
                 <div id="button" className="btn-group"  >
-                    <button type="button" className="btn1" id='advanced'>Advanced Search</button>
+                <Popup id='popup-anlt'
+                            trigger={<button type="button" className="btn1" id='advanced'>Advanced Search</button>}
+                            closeOnDocumentClick={true}
+                            modal>
+                            <Search /> 
+                        </Popup>
+                    
                     <button type="button" className="btn1" id='analytic'>Analytic View</button>
                     <button type="button" className="btn1" id='predict'>Predict</button>
                 </div>
                 <div className="search-box" align="">
-                  <input className="search-txt" type="text" name="" id="search-inv" placeholder="Search Customer ID"/>
-                    <a className="search-btn" href="#"></a>
+                   {/* <input className="search-txt" type="text" name="" id="search-inv" placeholder="Search Customer ID"/>   */}
+                  <TextField
+                            label='Search Customer Id'
+                            className='textbox search'
+                            variant='standard'
+                            size='small'
+                            name='cust_number'
+                            value={cust_number}
+                            onChange={changeHandler}
+                            onKeyPress={submitHandler}
+                            sx={{ m: 2 }}
+                        />
                  </div>
                 <div id="button" className="btn-group" role="group"  align="">
                   <Popup id='popup-anlt'
                             trigger={<button type="button" className="btn2" id='add'>Add</button>}
+                            closeOnDocumentClick={true}
                             modal>
                             <Add />
                         </Popup>
-                    <button type="button" className="btn2" id='edit'>Edit</button>
-                    <button type="button" className="btn2" id='delete'>Delete</button>
+                  <Popup id='popup-anlt'
+                            trigger={<button type="button" className="btn2" id='edit'>Edit</button>}
+                            closeOnDocumentClick={true}
+                            modal>
+                             <Edit /> 
+                        </Popup>
+                  <Popup id='popup-anlt'
+                            trigger={<button type="button" className="btn2" id='delete'>Delete</button>}
+                            closeOnDocumentClick={true}
+                            modal>
+                            <Delete /> */
+                        </Popup>     
                 </div>         
       </div>  
       <div className='table'>
@@ -72,4 +119,4 @@ if(cancelBtn){
 
 
 
-export default App;
+export default App
