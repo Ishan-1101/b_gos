@@ -1,5 +1,4 @@
 import React, { useState } from 'react'
-import logo from './logo.svg';
 import './App.css';
 import  MyGrid  from './components/MyGrid';
 import mainlogo from './Group 20399.svg'
